@@ -1,13 +1,23 @@
 import React, { useContext } from 'react';
+import { AuthContext } from '../Contexts/UserContext';
 
 const Login = () => {
-    const {} = useContext()  // create kora context er name
+    const {signIn} = useContext(AuthContext);  // create kora context er name
     const handleLoginSubmit = (event) => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password);
+        signIn(email, password)
+        .then(result => {
+            const user = result.user;
+            console.log('Signed in', user);
+        })
+        .catch(error => {
+            console.error(error)
+        })
+        form.reset()
     }
     return (
         <div>
