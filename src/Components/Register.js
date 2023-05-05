@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../Contexts/UserContext';
 
 const Register = () => {
-    const {createUser} = useContext(AuthContext); 
+    const {createUser, googleSignIn} = useContext(AuthContext); 
     console.log(createUser);
 
     const handleLoginSubmit = (event) => {
@@ -20,13 +20,25 @@ const Register = () => {
             const user = result.user;
             console.log('Registered user', user)
           })
-          .catch(error => {
+        .catch(error => {
             console.error(error);
             // ..
           });
 
         form.reset();
     }
+
+    const signInWithGoogle = () => {
+        googleSignIn()
+        .then(result => {
+            const user = result.user;
+            console.log(user)
+        })
+        .catch(error => {
+            console.error('Error: ',error)
+        })
+    }
+
     return (
         <div>
             <div className="hero min-h-screen bg-base-200">
@@ -60,6 +72,7 @@ const Register = () => {
                             <div className="form-control mt-6">
                                 <button type='submit' className="btn btn-primary">Register</button>
                             </div>
+                            <button onClick={signInWithGoogle} className="btn btn-primary">Sign up with google</button>
                         </form>
                     </div>
                 </div>

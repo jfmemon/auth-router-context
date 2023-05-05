@@ -1,22 +1,27 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../Contexts/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const {signIn} = useContext(AuthContext);  // create kora context er name
+    const { signIn } = useContext(AuthContext);  // create kora context er name
+    const navigate = useNavigate();
     const handleLoginSubmit = (event) => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email, password);
+        
         signIn(email, password)
-        .then(result => {
-            const user = result.user;
-            console.log('Signed in', user);
-        })
-        .catch(error => {
-            console.error(error)
-        })
+            .then(result => {
+                const user = result.user;
+                console.log('Signed in', user);
+                form.reset();
+                navigate('/');
+            })
+            .catch(error => {
+                console.error(error)
+            })
         form.reset()
     }
     return (
